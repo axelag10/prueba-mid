@@ -13,5 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     Route::apiResource('categories', CategoryController::class);
-});
 
+    Route::patch('categories/{id}/restore', [CategoryController::class, 'restore']);
+
+});

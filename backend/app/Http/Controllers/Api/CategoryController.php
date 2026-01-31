@@ -30,9 +30,9 @@ class CategoryController extends Controller
     // Crear categoría
     public function store(StoreCategoryRequest $request)
     {
-        $category = Category::create($request->validated());
+        $this->authorize('create', Category::class); //Policy
 
-        return response()->json($category, 201);
+        return Category::create($request->validated());
     }
 
     public function update(UpdateCategoryRequest $request, Category $category)
@@ -55,4 +55,15 @@ class CategoryController extends Controller
     {
         return $category->load('children');
     }
+
+    public function restore($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        $category->restore();
+
+        return response()->json([
+            'message' => 'Category restored successfully'
+        ]);
+    }
+
 }

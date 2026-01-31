@@ -9,6 +9,10 @@ use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
+use App\Models\Category;
+use App\Policies\CategoryPolicy;
+use Illuminate\Support\Facades\Gate;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Route::aliasMiddleware('role', RoleMiddleware::class);
         Route::aliasMiddleware('permission', PermissionMiddleware::class);
         Route::aliasMiddleware('role_or_permission', RoleOrPermissionMiddleware::class);
+
+        Gate::policy(Category::class, CategoryPolicy::class);
     }
 }
