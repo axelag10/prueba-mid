@@ -37,4 +37,31 @@ class CategoryController extends Controller
 
         return Category::create($data);
     }
+
+    public function update(Request $request, Category $category)
+    {
+        $data = $request->validate([
+            'name' => 'required|max:100',
+            'description' => 'nullable',
+            'parent_id' => 'nullable|exists:categories,id|not_in:' . $category->id,
+        ]);
+
+        $category->update($data);
+
+        return $category;
+    }
+
+    public function destroy(Category $category)
+    {
+        $category->delete();
+
+        return response()->json([
+            'message' => 'Category deleted successfully'
+        ]);
+    }
+
+    public function show(Category $category)
+    {
+        return $category->load('children');
+    }
 }
