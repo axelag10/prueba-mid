@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Category;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -13,8 +15,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $query = Category::whereNull('parent_id')
-            ->with('children')
-            ->whereNull('deleted_at');
+            ->with('children');
 
         if ($request->search) {
             $query->where(function ($q) use ($request) {
@@ -27,28 +28,18 @@ class CategoryController extends Controller
     }
 
     // Crear categoría
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|max:100',
-            'description' => 'nullable',
-            'parent_id' => 'nullable|exists:categories,id',
-        ]);
+        $category = Category::create($request->validated());
 
-        return Category::create($data);
+        return response()->json($category, 201);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category)
     {
-        $data = $request->validate([
-            'name' => 'required|max:100',
-            'description' => 'nullable',
-            'parent_id' => 'nullable|exists:categories,id|not_in:' . $category->id,
-        ]);
+        $category->update($request->validated());
 
-        $category->update($data);
-
-        return $category;
+        return response()->json($category);
     }
 
     public function destroy(Category $category)
