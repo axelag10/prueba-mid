@@ -13,6 +13,8 @@ use App\Models\Category;
 use App\Policies\CategoryPolicy;
 use App\Models\Provider;
 use App\Policies\ProviderPolicy;
+use App\Models\Variant;
+use App\Policies\VariantPolicy;
 
 use Illuminate\Support\Facades\Gate;
 
@@ -37,5 +39,6 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::policy(Category::class, CategoryPolicy::class);
         Gate::policy(Provider::class, ProviderPolicy::class);
+        Gate::policy(Variant::class, VariantPolicy::class);
     }
 }
