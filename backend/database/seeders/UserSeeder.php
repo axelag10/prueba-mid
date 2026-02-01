@@ -17,10 +17,23 @@ class UserSeeder extends Seeder
     {
         $admin = User::create([
             'name' => 'Admin',
-            'email' => 'admin@example.com',
+            'email' => 'admin@test.com',
             'password' => Hash::make('admin'),
         ]);
+        $admin->assignRole('Admin');
 
-        $admin->assignRole('admin');
+        $manager = User::create([
+            'name' => 'Manager',
+            'email' => 'manager@test.com',
+            'password' => Hash::make('manager'),
+        ]);
+        $manager->assignRole('Manager');
+
+        $viewer = User::create([
+            'name' => 'Viewer',
+            'email' => 'viewer@test.com',
+            'password' => Hash::make('viewer'),
+        ]);
+        $viewer->assignRole('Viewer');
     }
 }
