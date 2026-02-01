@@ -14,6 +14,8 @@ class CategoryController extends Controller
     // Listar SOLO categorías padre con hijos
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Category::class);
+
         $query = Category::whereNull('parent_id')
             ->with('children');
 
@@ -37,6 +39,8 @@ class CategoryController extends Controller
 
     public function update(UpdateCategoryRequest $request, Category $category)
     {
+        $this->authorize('update', $category);
+
         $category->update($request->validated());
 
         return response()->json($category);
@@ -44,6 +48,8 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        $this->authorize('delete', $category);
+
         $category->delete();
 
         return response()->json([
@@ -53,12 +59,15 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
+        $this->authorize('view', $category);
+
         return $category->load('children');
     }
 
     public function restore($id)
     {
         $category = Category::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', $category);
         $category->restore();
 
         return response()->json([

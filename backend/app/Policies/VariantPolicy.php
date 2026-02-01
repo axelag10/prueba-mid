@@ -21,7 +21,7 @@ class VariantPolicy
      */
     public function view(User $user, Variant $variant): bool
     {
-        return false;
+        return $user->hasAnyRole(['Admin', 'Manager']);
     }
 
     /**

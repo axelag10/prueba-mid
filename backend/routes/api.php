@@ -11,9 +11,6 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-});
-
-Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
 
     Route::apiResource('categories', CategoryController::class);
     Route::patch('categories/{id}/restore', [CategoryController::class, 'restore']);
@@ -23,4 +20,8 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
 
     Route::apiResource('variants', VariantController::class);
     Route::patch('variants/{id}/restore', [VariantController::class, 'restore']);
+});
+
+Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
+    // Metodos para Admin
 });

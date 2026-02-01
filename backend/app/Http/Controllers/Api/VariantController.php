@@ -32,9 +32,10 @@ class VariantController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Variant $variant)
     {
-        //
+        $this->authorize('view', $variant);
+        return $variant;
     }
 
     /**

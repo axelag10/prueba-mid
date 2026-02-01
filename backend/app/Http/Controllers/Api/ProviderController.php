@@ -35,9 +35,11 @@ class ProviderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Provider $provider)
     {
-        //
+        $this->authorize('view', $provider);
+
+        return $provider;
     }
 
     /**
