@@ -22,7 +22,10 @@ class StoreVariantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100|unique:variants,name'
+            'name' => 'required|string|max:100|unique:variants,name',
+            // Tipos de variante
+            'types' => 'required|array|min:1',
+            'types.*' => 'required|string|max:100',
         ];
     }
 }

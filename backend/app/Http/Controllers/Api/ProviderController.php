@@ -15,11 +15,17 @@ class ProviderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Provider::class);
 
-        return Provider::paginate(10);
+        $query = Provider::query();
+
+        if ($request->search) {
+            $query->where('name', 'like', "%{$request->search}%");
+        }
+
+        return $query->paginate(10);
     }
 
     /**

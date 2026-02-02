@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\Api\VariantController;
+use App\Http\Controllers\Api\VariantTypeController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -15,6 +16,9 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
     Route::apiResource('users', UserController::class);
 
     Route::post('users/{user}/roles', [UserController::class, 'assignRole']);
+
+    Route::apiResource('variant-types', VariantTypeController::class)->except(['index', 'show']);
+    Route::patch('variant-types/{id}/restore', [VariantTypeController::class, 'restore']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {

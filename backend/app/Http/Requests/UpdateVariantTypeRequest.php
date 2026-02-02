@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCategoryRequest extends FormRequest
+class UpdateVariantTypeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->hasRole('Admin');
     }
 
     /**
@@ -21,15 +21,8 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        $categoryId = $this->route('category')->id;
-
         return [
-            'name' => 'required|string|min:3|max:100|unique:categories,name,' . $categoryId,
-            'description' => 'nullable|string',
-            'parent_id' => [
-                'nullable',
-                'exists:categories,id'
-            ],
+            'name' => 'required|string|max:100'
         ];
     }
 }

@@ -14,10 +14,19 @@ class VariantController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Variant::class);
-        return Variant::paginate(10);
+        $query = Variant::with('variantTypes');
+
+        $query->where(function ($q) use ($request) {
+            $q->where('name', 'like', "%{$request->search}%")
+              ->orWhereHas('variantTypes', function ($t) use ($request) {
+                  $t->where('name', 'like', "%{$request->search}%");
+              });
+        });
+
+        return $query->paginate(10);
     }
 
     /**
@@ -26,7 +35,18 @@ class VariantController extends Controller
     public function store(StoreVariantRequest $request)
     {
         $this->authorize('create', Variant::class);
-        return Variant::create($request->validated());
+        
+        $variant = Variant::create([
+            'name' => $request->name,
+        ]);
+
+        foreach ($request->types as $type) {
+            $variant->variantTypes()->create([
+                'name' => $type
+            ]);
+        }
+
+        return $variant->load('variantTypes');
     }
 
     /**
@@ -35,7 +55,7 @@ class VariantController extends Controller
     public function show(Variant $variant)
     {
         $this->authorize('view', $variant);
-        return $variant;
+        return $variant->load('variantTypes');
     }
 
     /**
@@ -54,6 +74,7 @@ class VariantController extends Controller
     public function destroy(Variant $variant)
     {
         $this->authorize('delete', $variant);
+        // $variant->variantTypes()->delete();
         $variant->delete();
 
         return response()->json([
