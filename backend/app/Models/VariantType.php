@@ -20,4 +20,11 @@ class VariantType extends Model
     {
         return $this->belongsTo(Variant::class);
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_variant_types')
+            ->withPivot(['price', 'cost'])
+            ->withTimestamps();
+    }
 }

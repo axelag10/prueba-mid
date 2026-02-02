@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Category extends Model
 {
     use SoftDeletes;
-    
+
     protected $dates = ['deleted_at'];
 
     protected $fillable = [
@@ -28,5 +28,10 @@ class Category extends Model
     public function children()
     {
         return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\Api\VariantController;
 use App\Http\Controllers\Api\VariantTypeController;
+use App\Http\Controllers\Api\ProductController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -32,4 +33,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('variants', VariantController::class);
     Route::patch('variants/{id}/restore', [VariantController::class, 'restore']);
+
+    Route::apiResource('products', ProductController::class);
 });
