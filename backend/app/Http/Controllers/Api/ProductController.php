@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductController extends Controller
 {
@@ -68,16 +69,66 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $this->authorize('update', $product);
+
+        $product->update($request->only([
+            'sku',
+            'name',
+            'description',
+            'provider_id',
+        ]));
+
+        if ($request->has('type')) { // Validacion extra
+            abort(422, 'Product type cannot be changed');
+        }
+
+        // Categorías
+        if ($request->has('categories')) {
+            $product->categories()->sync($request->categories);
+        }
+
+        // Variant types con precio y costo.
+        if ($request->has('variant_types')) {
+            $syncData = [];
+
+            foreach ($request->variant_types as $variant) {
+                $syncData[$variant['id']] = [
+                    'price' => $variant['price'],
+                    'cost'  => $variant['cost'],
+                ];
+            }
+
+            $product->variantTypes()->sync($syncData);
+        }
+
+        return $product->load(['categories', 'variantTypes']);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $this->authorize('delete', $product);
+
+        $product->delete();
+
+        return response()->json([
+            'message' => 'Product deleted successfully'
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $product = Product::onlyTrashed()->findOrFail($id);
+        $this->authorize('restore', $product);
+
+        $product->restore();
+
+        return response()->json([
+            'message' => 'Product restored successfully'
+        ]);
     }
 }

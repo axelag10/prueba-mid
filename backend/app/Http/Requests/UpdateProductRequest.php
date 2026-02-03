@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,19 +22,19 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sku' => 'required|string|unique:products,sku',
-            'name' => 'required|string|max:100',
+            'sku' => 'required|string|max:50|unique:products,sku,' . $this->product->id,
+            'name' => 'required|string|max:150',
             'description' => 'nullable|string',
-            'type' => 'required|in:simple,variant',
-            'price' => 'required_if:type,simple|numeric',
-            'cost' => 'required_if:type,simple|numeric',
             'provider_id' => 'required|exists:providers,id',
-            'categories' => 'required|array',
+            'type' => 'prohibited',
+            'price' => 'required_if:type,simple|numeric|min:0',
+            'cost' => 'required_if:type,simple|numeric|min:0',
+            'categories' => 'array',
             'categories.*' => 'exists:categories,id',
-            'variant_types' => 'nullable|array',
+            'variant_types' => 'array',
             'variant_types.*.id' => 'exists:variant_types,id',
-            'variant_types.*.price' => 'required_if:type,variant|numeric',
-            'variant_types.*.cost' => 'required_if:type,variant|numeric',
+            'variant_types.*.price' => 'required|numeric|min:0',
+            'variant_types.*.cost' => 'required|numeric|min:0',
         ];
     }
 }

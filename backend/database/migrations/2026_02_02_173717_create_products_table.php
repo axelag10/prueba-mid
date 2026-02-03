@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->decimal('cost', 10, 2)->nullable();
-            $table->enum('type', ['individual', 'variant']);
+            $table->enum('type', ['simple', 'variant']);
             $table->foreignId('provider_id')->constrained()->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
