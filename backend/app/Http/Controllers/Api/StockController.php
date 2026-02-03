@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Product;
 use App\Models\Stock;
+use App\Models\StockMovement;
 use App\Http\Requests\StoreStockRequest;
 use App\Http\Requests\UpdateStockRequest;
 
@@ -24,15 +25,19 @@ class StockController extends Controller
             abort(422, 'Variant products require variant_type_id');
         }
 
-        $stock = Stock::updateOrCreate( // si ya existe lo actualizo si no lo creo
-            [
-                'product_id' => $request->product_id,
-                'variant_type_id' => $request->variant_type_id,
-            ],
-            [
-                'quantity' => $request->quantity,
-            ]
-        );
+        $stock = Stock::create([
+            'product_id' => $request->product_id,
+            'variant_type_id' => $request->variant_type_id,
+            'quantity' => $request->quantity,
+        ]);
+
+        StockMovement::create([
+            'stock_id' => $stock->id,
+            'quantity' => $request->quantity,
+            'type' => 'in',
+            'reason' => 'initial stock',
+            'user_id' => auth()->id(),
+        ]);
 
         return response()->json($stock, 201);
     }
@@ -49,6 +54,24 @@ class StockController extends Controller
             'quantity' => $newQuantity,
         ]);
 
+        StockMovement::create([
+            'stock_id' => $stock->id,
+            'quantity' => $request->quantity,
+            'type' => $request->quantity > 0 ? 'in' : 'out',
+            'reason' => $request->reason ?? null,
+            'user_id' => auth()->id(),
+        ]);
+
         return response()->json($stock);
+    }
+
+    public function movements(Stock $stock)
+    {
+        // $this->authorize('view', $stock);
+
+        return $stock->movements()
+            ->with('user')
+            ->latest()
+            ->paginate(20);
     }
 }

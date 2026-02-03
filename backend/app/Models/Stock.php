@@ -21,4 +21,9 @@ class Stock extends Model
     {
         return $this->belongsTo(VariantType::class);
     }
+
+    public function movements()
+    {
+        return $this->hasMany(StockMovement::class);
+    }
 }

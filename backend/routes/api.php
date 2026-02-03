@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
 
     Route::post('stocks', [StockController::class, 'store']);
     Route::patch('stocks/{stock}', [StockController::class, 'update']);
+    Route::get('stocks/{stock}/movements', [StockController::class, 'movements']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
