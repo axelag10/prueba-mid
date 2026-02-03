@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\Api\VariantController;
 use App\Http\Controllers\Api\VariantTypeController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\StockController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -20,6 +21,9 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
 
     Route::apiResource('variant-types', VariantTypeController::class)->except(['index', 'show']);
     Route::patch('variant-types/{id}/restore', [VariantTypeController::class, 'restore']);
+
+    Route::post('stocks', [StockController::class, 'store']);
+    Route::patch('stocks/{stock}', [StockController::class, 'update']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {

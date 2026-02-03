@@ -27,4 +27,9 @@ class VariantType extends Model
             ->withPivot(['price', 'cost'])
             ->withTimestamps();
     }
+
+    public function stock()
+    {
+        return $this->hasOne(Stock::class);
+    }
 }
