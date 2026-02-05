@@ -551,6 +551,10 @@ php artisan serve
 ```
 *O usar el servidor de tu preferencia
 
+## Diagrama Entidad Relación
+
+![ERD](docs/ERD-Inventario.png)
+
 ## Authors
 
 - [@axelag10](https://www.github.com/axelag10)
