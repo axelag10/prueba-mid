@@ -62,7 +62,7 @@ class ProductController extends Controller
         return $product->load([
             'categories',
             'provider',
-            'variants.variantTypes'
+            'variantTypes'
         ]);
     }
 

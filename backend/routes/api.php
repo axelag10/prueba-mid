@@ -21,10 +21,6 @@ Route::middleware(['auth:sanctum','role:Admin'])->group(function () {
 
     Route::apiResource('variant-types', VariantTypeController::class)->except(['index', 'show']);
     Route::patch('variant-types/{id}/restore', [VariantTypeController::class, 'restore']);
-
-    Route::post('stocks', [StockController::class, 'store']);
-    Route::patch('stocks/{stock}', [StockController::class, 'update']);
-    Route::get('stocks/{stock}/movements', [StockController::class, 'movements']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -41,4 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('products', ProductController::class);
     Route::patch('products/{id}/restore', [ProductController::class, 'restore']);
+
+    Route::apiResource('stocks', StockController::class)->only(['index', 'show', 'store', 'update']);
+    Route::get('stocks/{stock}/movements', [StockController::class, 'movements']);
 });

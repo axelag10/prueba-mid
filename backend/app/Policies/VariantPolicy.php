@@ -13,7 +13,7 @@ class VariantPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['Admin', 'Manager']);
+        return $user->hasAnyRole(['Admin', 'Manager', 'Viewer']);
     }
 
     /**
@@ -21,7 +21,7 @@ class VariantPolicy
      */
     public function view(User $user, Variant $variant): bool
     {
-        return $user->hasAnyRole(['Admin', 'Manager']);
+        return $user->hasAnyRole(['Admin', 'Manager', 'Viewer']);
     }
 
     /**

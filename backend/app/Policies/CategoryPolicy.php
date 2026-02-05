@@ -13,7 +13,7 @@ class CategoryPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasAnyRole(['Admin', 'Manager']);
+        return $user->hasAnyRole(['Admin', 'Manager', 'Viewer']);
     }
 
     /**
@@ -21,7 +21,7 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category): bool
     {
-        return $user->hasAnyRole(['Admin', 'Manager']);
+        return $user->hasAnyRole(['Admin', 'Manager', 'Viewer']);
     }
 
     /**
@@ -29,7 +29,7 @@ class CategoryPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasRole('Admin');
+        return $user->hasAnyRole(['Admin','Manager']);
     }
 
     /**
@@ -37,7 +37,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category): bool
     {
-        return $user->hasRole('Admin');
+        return $user->hasAnyRole(['Admin','Manager']);
     }
 
     /**

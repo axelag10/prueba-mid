@@ -13,8 +13,24 @@ use App\Http\Requests\UpdateStockRequest;
 
 class StockController extends Controller
 {
+    public function index()
+    {
+        $this->authorize('viewAny', Stock::class);
+
+        return Stock::with(['product','variantType'])->paginate(10);
+    }
+
+    public function show(Stock $stock)
+    {
+        $this->authorize('view', $stock);
+
+        return $stock->load([ 'product', 'variantType', 'movements']);
+    }
+
     public function store(StoreStockRequest $request)
     {
+        $this->authorize('create', Stock::class);
+
         $product = Product::findOrFail($request->product_id);
 
         if ($product->type === 'simple' && $request->variant_type_id) {
@@ -44,6 +60,8 @@ class StockController extends Controller
 
     public function update(UpdateStockRequest $request, Stock $stock)
     {
+        $this->authorize('update', $stock);
+
         $newQuantity = $stock->quantity + $request->quantity;
 
         if ($newQuantity < 0) {
@@ -67,7 +85,7 @@ class StockController extends Controller
 
     public function movements(Stock $stock)
     {
-        // $this->authorize('view', $stock);
+        $this->authorize('view', $stock);
 
         return $stock->movements()
             ->with('user')
