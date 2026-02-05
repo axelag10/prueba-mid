@@ -488,6 +488,19 @@ Se priorizó:
   - Diseño limpio
   - Reglas claras
   - Trazabilidad
+
+**Enfoque backend-first (sin frontend incluido)**
+
+El proyecto se diseñó como una API REST desacoplada, priorizando la arquitectura del backend, la lógica de negocio y la seguridad sobre la implementación de una interfaz gráfica.
+
+No se desarrolló un frontend por las siguientes razones:
+
+- **Prioridad en lógica crítica:** Se priorizó la implementación de inventario, control de stock, historial de movimientos y control de acceso por roles, que representan la parte más compleja del sistema.
+- **Escalabilidad:** Al ser una API independiente, el frontend puede desarrollarse posteriormente sin modificar la lógica del backend.
+- **Optimización del tiempo:** Dado el alcance del proyecto, se priorizó la solidez del backend y la documentación de endpoints sobre la construcción de una interfaz visual.
+
+Por lo que cumple con la separación de responsabilidades para que puede ser consumida por cualquier cliente, siguiendo principios de arquitectura desacoplada.
+
 ## 🛠️ Instalación
 
 Clonar el repositorio
