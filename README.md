@@ -482,13 +482,6 @@ El diseño contempla múltiples bodegas:
   - Transferencias como movimientos `in` y `out`
   - Referencias compartidas
 
-**Enfoque en backend**
-
-Se priorizó:
-  - Diseño limpio
-  - Reglas claras
-  - Trazabilidad
-
 **Enfoque backend-first (sin frontend incluido)**
 
 El proyecto se diseñó como una API REST desacoplada, priorizando la arquitectura del backend, la lógica de negocio y la seguridad sobre la implementación de una interfaz gráfica.
