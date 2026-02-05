@@ -264,6 +264,7 @@ Todos los endpoint requieren autentificación vía Bearer Token, salvo /login
 ```json
 {
   "name": "Color",
+  "types":["Rojo", "Azul"]
 }
 ```
 
@@ -272,6 +273,13 @@ Todos los endpoint requieren autentificación vía Bearer Token, salvo /login
 ```http
   PUT /api/variants/{id}
 ```
+#### Body (JSON)
+```json
+{
+  "name": "Color actualizado"
+}
+```
+
 #### Eliminar variante (Soft delete)
 
 ```http
@@ -284,24 +292,18 @@ Todos los endpoint requieren autentificación vía Bearer Token, salvo /login
 ```
 
 ### Tipos de variante
-#### Crear tipo de variante
-
-```http
-  POST /api/variant-types
-```
-#### Body (JSON)
-```json
-{
-  "variant_id": 1,
-  "name": "Rojo"
-}
-```
-
 #### Actualizar tipo de variante
 
 ```http
   PUT /api/variant-types/{id}
 ```
+#### Body (JSON)
+```json
+{
+  "name": "Rojo0"
+}
+```
+
 #### Eliminar tipo de variante (Soft delete)
 
 ```http
@@ -333,7 +335,7 @@ Todos los endpoint requieren autentificación vía Bearer Token, salvo /login
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `id`      | `number` | **Requerido**. ID del producto  |
+| `id`      | `number` | **Requerido**. ID del producto    |
 
 #### Crear producto
 
@@ -388,6 +390,7 @@ Todos los endpoint requieren autentificación vía Bearer Token, salvo /login
 ```http
   PUT /api/products/{id}
 ```
+*Al actualizar el producto ya no se puede cambiar el tipo de producto si nace `simple` se queda 'simple' y viceversa
 #### Eliminar producto (Soft delete)
 
 ```http
@@ -424,6 +427,16 @@ Todos los endpoint requieren autentificación vía Bearer Token, salvo /login
   "quantity": -3,
   "reason": "Venta mostrador"
 }
+```
+#### Obtener datos de stock
+
+```http
+  GET /api/stocks/
+```
+#### Obtener datos de stock de un producto
+
+```http
+  GET /api/stocks/{id}
 ```
 #### Obtener movientos de stock
 
