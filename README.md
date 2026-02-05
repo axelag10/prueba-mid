@@ -544,6 +544,21 @@ php artisan serve
 ```
 *O usar el servidor de tu preferencia
 
+## 🩻 Pruebas Automatizadas
+
+El proyecto incluye pruebas automatizadas de backend utilizando PHPUnit y Laravel Testing.
+
+Se implementaron **5 pruebas de integración (feature tests)** enfocadas en:
+- Creación de productos con permisos de administrador
+- Restricciones de acceso según roles 
+- Autenticación mediante Laravel Sanctum
+- Integridad de relaciones entre modelos
+Estas pruebas verifican tanto la lógica de negocio como el sistema de autorización.
+
+### Ejecutar pruebas
+``php artisan test``
+Las pruebas utilizan factories y una base de datos de testing aislada en memoria para garantizar ejecuciones reproducibles.
+
 ## Diagrama Entidad Relación
 
 ![ERD](docs/ERD-Inventario.png)
