@@ -553,10 +553,12 @@ Se implementaron **5 pruebas de integración (feature tests)** enfocadas en:
 - Restricciones de acceso según roles 
 - Autenticación mediante Laravel Sanctum
 - Integridad de relaciones entre modelos
+
 Estas pruebas verifican tanto la lógica de negocio como el sistema de autorización.
 
 ### Ejecutar pruebas
 ``php artisan test``
+
 Las pruebas utilizan factories y una base de datos de testing aislada en memoria para garantizar ejecuciones reproducibles.
 
 ## Diagrama Entidad Relación
